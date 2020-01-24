@@ -1,0 +1,97 @@
+#------ Server ------
+server:
+  port:
+  address: localhost
+
+#------ Spring ------
+spring:
+  profiles:
+    # Set to "dev" when CORS is needed (and don't forget to uncomment the apache config)
+    # OR you are developing with your own computer.
+    # Set to default in production environment.
+    active: default
+  session:
+    store-type: jdbc
+    datasource:
+      jdbc-url:
+      username:
+    # Spring Session overrides the configuration provided by the embedded tomcat server,
+    # see JdbcSessionConfig for the cookie stuff.
+    cookie:
+      secure: true
+      http-only: true
+      name: refresh_session
+      max-age: 7776000
+      path: /
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+
+#------ Logging ------
+logging:
+  # Everyone has full access to this directory!
+  path: /opt/refresh/log
+  # Request logging
+  request:
+    username: false
+    ip: false
+    method: false
+    path: false
+    parameters: false
+    # Be careful, this writes session ids to a logging file where EVERYONE has access.
+    cookies: false
+    # Interval between request info clears in millis (currently 1 week)
+    clear-interval: 604800000
+    normal:
+        responses: 200
+        process-time: 300
+  file:
+    max-history: 1
+
+#------ Security ------
+security:
+  admins:
+  login:
+    disabled: false
+    denied:
+      users:
+      grades:
+    allowed:
+      users:
+      # Letters have to be upper case for grade filtering to work.
+      grades:
+
+#------ LDAP ------
+ldap:
+  url:
+  dn:
+    base:
+    user-pattern:
+  group:
+    search-base:
+    search-filter:
+
+
+#------ Cover ------
+cover:
+  url:
+  directories:
+  file:
+  # Cover cache refresh rate in ms (currently 5 min).
+  refresh-rate: 300000
+  remove-teacher-names: false
+
+#------ Mensa Menu ------
+mensa:
+  url: http://mensa-hoehnisch.de/index.php/angebote/speiseplaene
+  # Refresh rate in ms (currently 1 day).
+  refresh-rate: 86400000
+  # Number of days the Mensa has opened in one week. Currently Monday - Thursday.
+  day-count: 4
+
+#------ Weather ------
+weather:
+  datasource:
+    jdbc-url:
+    username:
